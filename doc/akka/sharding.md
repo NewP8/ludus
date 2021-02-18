@@ -1,7 +1,3 @@
-# Akka
-
-## Akka cluster
-
 ## Akka Cluster Sharding
 
 Stateless
