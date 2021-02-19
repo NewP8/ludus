@@ -40,7 +40,28 @@ soluzioni a partizione:
 ### Application lever sharding
 
 ogni entità stà in una shard/location (Entity = consistency boundaries).
-Coordinator smista messaggi a Entità corretta
+Coordinator smista messaggi a Entità corretta.
+(al primo messaggio indica in quale nodo stà l'entità, nei successivi non serve)
 Bilanciamento delle entità diventa importante.
 
-..Effects of Sharding
+Shardg permette di isolare contetntion.
+se suddiviso entità per id riduco contention.
+Distribuendo gli shard nelle varie macchine posso diminuire il carico di lavoro
+Entity mantengono strong consistency (entity processano un messaggio alla volta).
+
+In caso di *fallimento* i messaggi vengono bufferizzati e se termino gracefully dopo
+verranno rielaborati tutti.
+Sharding è soluzione **CP** (guarda a consistenza).
+Se terminazione violenta il resto del sistema non sa cosa succede e alcuni messaggi possono esssere persi.
+Se shard va giu può essere migrato su altro nodo.
+
+Shard è sistema di cache distribuito ma risolve il problema di localizzare cache con verità (cahce unica per entity)
+No avanza a processare nuovo messaggio fino a quando sia cache che db non sono allineati.
+read non va su db ma direttamente su cache.
+
+Per quanto riguarda la parte **AP** si può prevedere l'utilizzo di **CRDT** (conflict free replicated data)
+usano una replica e poi copiati in modo asincrono nelle altre repliche (con merge x es max(..) commutativa,associativa,idempotente)
+(Akka Distribuited Data li fornisce) 
+CRDT replicati su tutti i nodi e distribuiti quindi veloci da accedere.
+
+come decidere fra Consistency o Availability? Business
