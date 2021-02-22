@@ -35,6 +35,23 @@ altrimenti vado avanti lo stesso e uso:
 
 In Akka uso attori anche per gestire Saga
 
+### Garanzia di consegna 
+
+impossibilità di raggiungere un consenso se mezzo di comunicazione inaffidabile
+**Two generals** 2 generali che devono attaccare :-)
+* IMPOSSIBILE "exactly one delivery"
+* At most once (no retry, no storage) default in Akka
+* At least once (errore può avvenire in risposta perciò retry potrebbe mandare 2a volta etc., storage in sender)
+  - per simulare exactly once il messaggio deve essere idempotente (o dideduplicazione con storage anche in receiver)
+  default in Akka persistence e Lagom Broker API
+
+## Messaging Pattern
+
+Comunicazione fra microservizi
+- point-to-point (accoppiamento diretto, osservabile)
+- message broker - publish/subscribe (disaccoppiamento, complessità difficile da tenere sotto controllo)
+
+
 
 
 
